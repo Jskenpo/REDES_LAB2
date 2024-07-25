@@ -1,48 +1,44 @@
-def calculate_parity(bits, positions):
-    parity = 0
-    for pos in positions:
-        parity ^= bits[pos-1]  # Operación XOR
-    return parity
-
-def encode_hamming_11_7(data_bits):
-    # Posiciones de los bits de paridad
-    parity_positions = {
-        1: [1, 3, 5, 7, 9, 11],
-        2: [2, 3, 6, 7, 10, 11],
-        3: [4, 5, 6, 7],
-        4: [8, 9, 10, 11]
-    }
-
-    # Insertar los bits de datos en las posiciones correspondientes
-    hamming_code = [0] * 11
-    data_positions = [3, 5, 6, 7, 9, 10, 11]
-    for i, bit in zip(data_positions, data_bits):
-        hamming_code[i-1] = bit
-
+def encode_hamming_11_7(data):
+    # Asegurarse de que la entrada sea de 7 bits
+    assert len(data) == 7, "La entrada debe ser de 7 bits"
+    
+    # Crear el código Hamming de 11 bits
+    code = [0] * 11
+    
+    # Colocar los bits de datos en las posiciones correctas
+    code[2] = data[0]
+    code[4] = data[1]
+    code[5] = data[2]
+    code[6] = data[3]
+    code[8] = data[4]
+    code[9] = data[5]
+    code[10] = data[6]
+    
     # Calcular los bits de paridad
-    for p in parity_positions:
-        hamming_code[p-1] = calculate_parity(hamming_code, parity_positions[p])
-
-    return hamming_code
+    code[0] = code[2] ^ code[4] ^ code[6] ^ code[8] ^ code[10]  # Paridad 1
+    code[1] = code[2] ^ code[5] ^ code[6] ^ code[9] ^ code[10]  # Paridad 2
+    code[3] = code[4] ^ code[5] ^ code[6]  # Paridad 4
+    code[7] = code[8] ^ code[9] ^ code[10]  # Paridad 8
+    
+    return code
 
 def encode_message(message):
-    hamming_codes = []
+    encoded = []
     for char in message:
-        # Obtener el valor ASCII del carácter y luego su representación binaria de 7 bits
-        ascii_value = ord(char)
-        binary_representation = f"{ascii_value:07b}"  # 7 bits
-        data_bits = [int(bit) for bit in binary_representation]
+        # Convertir el carácter a su representación binaria de 7 bits
+        binary = format(ord(char), '07b')
+        # Convertir la cadena binaria a una lista de enteros
+        data = [int(bit) for bit in binary]
+        # Codificar los 7 bits en Hamming (11,7)
+        hamming = encode_hamming_11_7(data)
+        # Convertir la lista de bits a una cadena y añadirla al resultado
+        encoded.append(''.join(map(str, hamming)))
+    return encoded
 
-        # Codificar en Hamming (11,7)
-        hamming_code = encode_hamming_11_7(data_bits)
-        hamming_codes.append(''.join(map(str, hamming_code)))
-
-    return hamming_codes
-
-# Solicitar un mensaje al usuario
-message = input("Introduce un mensaje para codificar: ")
+# Ejemplo de uso
+message = input("Introduce un mensaje a codificar: ")
 encoded_message = encode_message(message)
 
-# Mostrar los resultados
-print("Códigos Hamming (11,7) separados por comas:")
-print(",".join(encoded_message))
+print("Mensaje original:", message)
+print("Mensaje codificado en Hamming (11,7):")
+print(','.join(encoded_message))
