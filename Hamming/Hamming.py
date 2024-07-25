@@ -25,28 +25,24 @@ def encode_hamming_11_7(data_bits):
 
     return hamming_code
 
+def encode_message(message):
+    hamming_codes = []
+    for char in message:
+        # Obtener el valor ASCII del carácter y luego su representación binaria de 7 bits
+        ascii_value = ord(char)
+        binary_representation = f"{ascii_value:07b}"  # 7 bits
+        data_bits = [int(bit) for bit in binary_representation]
+
+        # Codificar en Hamming (11,7)
+        hamming_code = encode_hamming_11_7(data_bits)
+        hamming_codes.append(''.join(map(str, hamming_code)))
+
+    return hamming_codes
+
 # Solicitar un mensaje al usuario
 message = input("Introduce un mensaje para codificar: ")
-
-# Convertir cada carácter en 7 bits ASCII y luego codificarlo en Hamming (11,7)
-hamming_codes = []
-for char in message:
-    # Obtener el valor ASCII del carácter y luego su representación binaria de 7 bits
-    ascii_value = ord(char)
-    binary_representation = f"{ascii_value:07b}"  # 7 bits
-    data_bits = [int(bit) for bit in binary_representation]
-
-    # Codificar en Hamming (11,7)
-    hamming_code = encode_hamming_11_7(data_bits)
-    hamming_codes.append(hamming_code)
+encoded_message = encode_message(message)
 
 # Mostrar los resultados
-output = []
-for original, hamming in zip(message, hamming_codes):
-    encoded_string = ''.join(map(str, hamming))
-    output.append(encoded_string)
-    print(f"Caracter: {original} - ASCII: {ord(original):07b}")
-
-# Mostrar los códigos Hamming separados por comas
-print("\nCódigos Hamming (11,7) separados por comas:")
-print(", ".join(output))
+print("Códigos Hamming (11,7) separados por comas:")
+print(",".join(encoded_message))
