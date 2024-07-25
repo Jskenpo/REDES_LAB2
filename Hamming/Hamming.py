@@ -41,5 +41,12 @@ for char in message:
     hamming_codes.append(hamming_code)
 
 # Mostrar los resultados
+output = []
 for original, hamming in zip(message, hamming_codes):
-    print(f"Caracter: {original} - ASCII: {ord(original):07b} - Hamming (11,7): {''.join(map(str, hamming))}")
+    encoded_string = ''.join(map(str, hamming))
+    output.append(encoded_string)
+    print(f"Caracter: {original} - ASCII: {ord(original):07b}")
+
+# Mostrar los códigos Hamming separados por comas
+print("\nCódigos Hamming (11,7) separados por comas:")
+print(", ".join(output))
