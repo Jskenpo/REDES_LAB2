@@ -50,12 +50,13 @@ public class BinaryMessageReceiver {
             String messagePart = binaryMessage.substring(0, binaryMessage.length() - 32);
             try {
                 String message = binaryToString(messagePart);
-                System.out.println("No errors detected. Original message: " + message);
+                System.out.println("No se detectaron errores. El mensaje orignal es: " + message);
+                System.out.println("Mensaje en binario: " + messagePart);
             } catch (IllegalArgumentException e) {
-                System.out.println("Error converting binary to string: " + e.getMessage());
+                System.out.println("Error -- convertir binario a string: " + e.getMessage());
             }
         } else {
-            System.out.println("Errors detected. Message discarded.");
+            System.out.println("-- Se detectaron errores. Se descarta el mensaje --");
         }
         
         scanner.close();
