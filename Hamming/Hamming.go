@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net"
 	"strings"
 )
 
@@ -86,13 +87,40 @@ func decodeMessage(encodedMessage string) string {
 	return string(asciiChars)
 }
 
-func main() {
-	// Solicitar la cadena de caracteres codificados en Hamming (11,7) separados por comas
-	var input string
-	fmt.Println("Introduce la cadena de caracteres codificados en Hamming (11,7) separados por comas:")
-	fmt.Scanln(&input)
+func startServer() {
+	listener, err := net.Listen("tcp", "localhost:5001")
+	if err != nil {
+		fmt.Println("Error al iniciar el servidor:", err)
+		return
+	}
+	defer listener.Close()
 
-	// Decodificar el mensaje
-	decodedMessage := decodeMessage(input)
-	fmt.Printf("Mensaje decodificado: %s\n", decodedMessage)
+	fmt.Println("Receptor esperando conexiones...")
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			fmt.Println("Error al aceptar conexión:", err)
+			continue
+		}
+		go handleConnection(conn)
+	}
+}
+
+func handleConnection(conn net.Conn) {
+	defer conn.Close()
+
+	buffer := make([]byte, 1024)
+	n, err := conn.Read(buffer)
+	if err != nil {
+		fmt.Println("Error al leer datos:", err)
+		return
+	}
+
+	encodedMessage := string(buffer[:n])
+	decodedMessage := decodeMessage(encodedMessage)
+	conn.Write([]byte(decodedMessage))
+}
+
+func main() {
+	startServer()
 }

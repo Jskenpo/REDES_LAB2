@@ -1,3 +1,6 @@
+import socket
+
+
 def encode_hamming_11_7(data):
     # Asegurarse de que la entrada sea de 7 bits
     assert len(data) == 7, "La entrada debe ser de 7 bits"
@@ -35,10 +38,17 @@ def encode_message(message):
         encoded.append(''.join(map(str, hamming)))
     return encoded
 
-# Ejemplo de uso
-message = input("Introduce un mensaje a codificar: ")
-encoded_message = encode_message(message)
+def start_server():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(('localhost', 5000))
+        s.listen()
+        print("Emisor esperando conexiones...")
+        while True:
+            conn, addr = s.accept()
+            with conn:
+                data = conn.recv(1024).decode()
+                encoded = encode_message(data)
+                conn.sendall(','.join(encoded).encode())
 
-print("Mensaje original:", message)
-print("Mensaje codificado en Hamming (11,7):")
-print(','.join(encoded_message))
+if __name__ == "__main__":
+    start_server()
