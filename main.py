@@ -31,8 +31,8 @@ def main():
             decoded = send_receive(encoded, 5001)
             print("Mensaje decodificado:", decoded)
         elif op == '2':
-            #pending...
-            pass
+            print('-------------------Codificación CRC-32-------------------\n\n')
+            
         elif op == '3':
             salir = True
         else:
