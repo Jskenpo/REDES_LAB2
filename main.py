@@ -18,6 +18,7 @@ def main():
         print('2. CRC-32 (detector de errores)')
         print('3. Salir\n')
         op = input ('Ingrese el número de la opción deseada: ')
+
         if op == '1':
             print('-------------------Codificación Hamming-------------------\n\n')
             # Esperar a que los servidores estén listos
@@ -30,11 +31,14 @@ def main():
             # Enviar al receptor y recibir la decodificación
             decoded = send_receive(encoded, 5001)
             print("Mensaje decodificado:", decoded)
+
         elif op == '2':
             #pending...
             pass
+
         elif op == '3':
             salir = True
+            print('Gracias por usar el programa de codificación de mensajes')
         else:
             print('Opción no válida')
     # Iniciar el emisor y receptor

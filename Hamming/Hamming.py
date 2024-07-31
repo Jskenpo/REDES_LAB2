@@ -1,4 +1,6 @@
 import socket
+import random
+import sys
 
 
 def encode_hamming_11_7(data):
@@ -38,17 +40,35 @@ def encode_message(message):
         encoded.append(''.join(map(str, hamming)))
     return encoded
 
-def start_server():
+def add_noise(encoded_message, error_rate):
+    noisy_message = []
+    for block in encoded_message:
+        noisy_block = list(block)
+        for i in range(len(noisy_block)):
+            if random.random() < error_rate:
+                noisy_block[i] = '1' if noisy_block[i] == '0' else '0'
+        noisy_message.append(''.join(noisy_block))
+    return noisy_message
+
+def start_server(port, error_rate):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind(('localhost', 5000))
+        s.bind(('localhost', port))
         s.listen()
-        print("Emisor esperando conexiones...")
+        print(f"Emisor esperando conexiones en el puerto {port} (Tasa de error: {error_rate})...")
         while True:
             conn, addr = s.accept()
             with conn:
                 data = conn.recv(1024).decode()
                 encoded = encode_message(data)
-                conn.sendall(','.join(encoded).encode())
+                noisy_encoded = add_noise(encoded, error_rate)
+                
+                # Imprimir mensaje original y con ruido para comparación
+                print("Mensaje codificado original:", ','.join(encoded))
+                print("Mensaje codificado con ruido:", ','.join(noisy_encoded))
+                
+                conn.sendall(','.join(noisy_encoded).encode())
 
 if __name__ == "__main__":
-    start_server()
+    port = 5000
+    error_rate = 0.01
+    start_server(port, error_rate)
