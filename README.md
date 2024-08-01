@@ -1,5 +1,5 @@
-# Laboratorio 2
-## Algoritmos de detección y corrección: Hamming y CRC-32 
+
+# Algoritmos de detección y corrección: Hamming y CRC-32 
 
 ## Algoritmo de Hamming
 
@@ -49,7 +49,7 @@ Para probar los algoritmos de Hamming, sigue estos pasos:
     ```
 3. Ejecuta el archivo del emisor  especificando el puerto y la probabilidad de error `python hamming.py 5000 0.001`
 4. Ejecuta el archivo del recepor navegando hacia la direccion donde se encuentra el archivo hamming.go y luego ejecuta el comando `go run .`
-5. Dirpigete a la carpeta de detección de errores y ejecuta los programas.
+5. Dirígete a la carpeta de detección de errores y ejecuta los programas.
 
 Los puertos por defecto de cada cliente son los siguientes:
 - Emisor Hamming: `5000`
@@ -62,3 +62,47 @@ Los puertos por defecto de cada cliente son los siguientes:
 **Para poder probar el programa debe de tener ya todos los programas de emisor y receptor ya corriendo**
 
 Puede ejecutar el programa `main.py` mediante uso de la terminal (`python .../main.py`) o usando un IDE en donde podrá probar los distintos algoritmos.
+
+### Pruebas Hamming
+
+#### Funciones Principales
+
+- **`send_receive(message, emisor_port, receptor_port, max_retries=5)`**:
+  - Esta función envía un mensaje al emisor y luego al receptor, y recibe la respuesta codificada y decodificada. Reintenta la conexión en caso de fallos.
+  
+- **`run_test(num_requests, emisor_port, receptor_port)`**:
+  - Realiza múltiples pruebas de transmisión de mensajes, calcula la tasa de éxito y la tasa de error de bits, y acumula los resultados para su análisis.
+  
+- **`main()`**:
+  - Configura los puertos del emisor y receptor, inicia los procesos del emisor y receptor, y ejecuta pruebas con diferentes tasas de error y números de solicitudes. Luego, visualiza los resultados y muestra estadísticas.
+
+#### Ejecución del Código
+
+1. **Configuración de los Servidores**:
+   - Asegúrate de que los archivos `Hamming.py` (Python) y `Hamming.go` (Go) están disponibles en las carpetas especificadas (`Hamming/`).
+   - El archivo `Hamming.py` debe recibir el puerto del emisor y la tasa de error como argumentos.
+   - El archivo `Hamming.go` debe escuchar en el puerto del receptor.
+
+2. **Iniciar el Script**:
+   - Ejecuta el archivo Python con el siguiente comando:
+     ```bash
+     python nombre_del_archivo.py
+     ```
+   - El script iniciará automáticamente los procesos del emisor y receptor, ejecutará las pruebas y visualizará los resultados.
+
+#### Resultados y Visualización
+
+El script genera dos gráficos que muestran:
+- La **tasa de éxito** frente a la **tasa de error**.
+- La **tasa de error de bits** frente a la **tasa de error**.
+
+Los gráficos se guardan en el archivo `hamming_performance.png` y se muestran al final de la ejecución del script.
+
+### Requisitos
+
+- **Python 3.x**: Para ejecutar el script principal.
+- **Go**: Para ejecutar el archivo `Hamming.go`.
+- **Matplotlib**: Para generar gráficos (instalar con `pip install matplotlib`).
+- **Numpy**: Requerido para el manejo de datos (instalar con `pip install numpy`).
+
+
