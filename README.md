@@ -86,7 +86,7 @@ Puede ejecutar el programa `main.py` mediante uso de la terminal (`python .../ma
 2. **Iniciar el Script**:
    - Ejecuta el archivo Python con el siguiente comando:
      ```bash
-     python nombre_del_archivo.py
+     python test2.py
      ```
    - El script iniciará automáticamente los procesos del emisor y receptor, ejecutará las pruebas y visualizará los resultados.
 
