@@ -1,5 +1,6 @@
 import socket
 import random
+import sys
 
 def string_to_binary(s):
     return ''.join(format(ord(c), '08b') for c in s)
@@ -39,7 +40,7 @@ def apply_noise(binary_message, error_rate):
             noisy_message.append(bit)
     return ''.join(noisy_message)
 
-def start_crc32_server(error_rate=0.0001):
+def start_crc32_server(error_rate=0.001):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind(('localhost', 5002))
         s.listen()
@@ -53,4 +54,5 @@ def start_crc32_server(error_rate=0.0001):
                 conn.sendall(noisy_encoded.encode())
 
 if __name__ == "__main__":
+    errorRate = float(sys.argv[1]) if len(sys.argv) > 1 else 0.001
     start_crc32_server()

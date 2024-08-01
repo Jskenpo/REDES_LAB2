@@ -69,6 +69,6 @@ def start_server(port, error_rate):
                 conn.sendall(','.join(noisy_encoded).encode())
 
 if __name__ == "__main__":
-    port = 5000
-    error_rate = 0.01
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else 5000
+    error_rate = float(sys.argv[2]) if len(sys.argv) > 1 else 0.001
     start_server(port, error_rate)

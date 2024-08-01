@@ -9,6 +9,13 @@
             "name": "CRC32_receptor",
             "request": "launch",
             "mainClass": "Receptor.CRC32_receptor",
+            "projectName": "REDES_LAB2_5e12b934"
+        },
+        {
+            "type": "java",
+            "name": "CRC32_receptor",
+            "request": "launch",
+            "mainClass": "Receptor.CRC32_receptor",
             "projectName": "REDES_LAB2_6b14d631"
         },
         {
