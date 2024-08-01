@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CRC32_receptor",
+            "request": "launch",
+            "mainClass": "Receptor.CRC32_receptor",
+            "projectName": "REDES_LAB2_6b14d631"
+        },
+        {
+            "type": "java",
             "name": "BinaryMessageReceiver",
             "request": "launch",
             "mainClass": "Receptor.BinaryMessageReceiver",
