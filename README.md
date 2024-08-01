@@ -1,1 +1,64 @@
-# REDES_LAB2
+# Laboratorio 2
+## Algoritmos de detección y corrección: Hamming y CRC-32 
+
+## Algoritmo de Hamming
+
+### Conceptos Básicos
+
+El código Hamming es un método de corrección de errores que permite detectar y corregir errores de bit en la transmisión de datos. Fue inventado por Richard Hamming en 1950.
+
+### Generación de Códigos Hamming
+
+1. **Inserción de Bits de Paridad**: Los bits de paridad se insertan en posiciones específicas de la palabra de datos. Si una palabra de datos tiene `k` bits, se añaden `r` bits de paridad para formar una palabra de código de `n` bits, donde `n = k + r`.
+2. **Cálculo de Bits de Paridad**: Los bits de paridad se calculan para cubrir combinaciones específicas de bits en la palabra de código. Cada bit de paridad se coloca en una posición que es una potencia de 2 (1, 2, 4, 8, ...).
+
+### Detección y Corrección de Errores
+
+1. **Recepción y Verificación**: Al recibir una palabra de código, se recalculan los bits de paridad y se comparan con los bits de paridad recibidos.
+2. **Identificación de Errores**: Si hay una discrepancia, la posición del bit erróneo se identifica sumando las posiciones de los bits de paridad que no coinciden.
+3. **Corrección de Errores**: El bit en la posición identificada se invierte para corregir el error.
+
+## Algoritmo CRC-32
+
+### Conceptos Básicos
+
+CRC (Cyclic Redundancy Check) es un método de detección de errores ampliamente utilizado en redes y sistemas de almacenamiento. CRC-32 utiliza un polinomio de 32 bits para generar un código de redundancia cíclica.
+
+### Generación del CRC
+
+1. **Selección del Polinomio**: Se selecciona un polinomio generador de 32 bits, comúnmente `0x04C11DB7`.
+2. **División Polinómica**: Los datos se tratan como coeficientes de un polinomio y se dividen por el polinomio generador utilizando la aritmética binaria (sin acarreo).
+3. **Cálculo del Resto**: El resto de esta división es el CRC, que se anexa al final de los datos.
+
+### Verificación del CRC
+
+1. **Recepción de Datos**: Se reciben los datos con el CRC anexado.
+2. **División Polinómica**: Se realiza la misma división polinómica sobre los datos recibidos.
+3. **Validación del Resto**: Si el resto es cero, los datos se consideran correctos; de lo contrario, se detecta un error.
+
+## Ejecución de código
+
+### Configuración de servidor 
+
+Para probar los algoritmos de Hamming, sigue estos pasos:
+
+1. Abre una terminal.
+2. Navega a la carpeta `hamming`
+    ```
+    cd Hamming 
+    ```
+3. Ejecuta el archivo del emisor  especificando el puerto y la probabilidad de error `python hamming.py 5000 0.001`
+4. Ejecuta el archivo del recepor navegando hacia la direccion donde se encuentra el archivo hamming.go y luego ejecuta el comando `go run .`
+5. Dirpigete a la carpeta de detección de errores y ejecuta los programas.
+
+Los puertos por defecto de cada cliente son los siguientes:
+- Emisor Hamming: `5000`
+- receptor Hamming: `5001`
+- Emisor CRC-32: `5002`
+- Receptor CRC-32: `5003`
+
+### Módulo principal
+
+**Para poder probar el programa debe de tener ya todos los programas de emisor y receptor ya corriendo**
+
+Puede ejecutar el programa `main.py` mediante uso de la terminal (`python .../main.py`) o usando un IDE en donde podrá probar los distintos algoritmos.
