@@ -51,6 +51,17 @@ Para probar los algoritmos de Hamming, sigue estos pasos:
 4. Ejecuta el archivo del recepor navegando hacia la direccion donde se encuentra el archivo hamming.go y luego ejecuta el comando `go run .`
 5. Dirígete a la carpeta de detección de errores y ejecuta los programas.
 
+Para probar el algoritmo CRC-32, sigue estos pasos:
+
+1. Abre una terminal.
+2. Navega en la carpeta `Deteccion_errores`
+   ```
+    cd Deteccion_errores 
+   ```
+3.  Ejecuta el archivo del emisor corriendo el programa `CRC-32_emisor.py` para tener listo el servidor
+4.  Ejecuta el archivo del emisor corriendo el programa `CRC32_receptor.java` para tener listo el servidor
+5.  Dirigete al main y corre el programa
+
 Los puertos por defecto de cada cliente son los siguientes:
 - Emisor Hamming: `5000`
 - receptor Hamming: `5001`
@@ -76,12 +87,33 @@ Puede ejecutar el programa `main.py` mediante uso de la terminal (`python .../ma
 - **`main()`**:
   - Configura los puertos del emisor y receptor, inicia los procesos del emisor y receptor, y ejecuta pruebas con diferentes tasas de error y números de solicitudes. Luego, visualiza los resultados y muestra estadísticas.
 
+### Pruebas CRC-32
+
+#### Funciones Principales
+
+- **`send_receive(message,error_rates)`**:
+  - Esta función envía un mensaje al emisor y luego al receptor, y recibe la respuesta codificada y decodificada. Reintenta la conexión en caso de fallos. Ademas se le envia la tasa de error que desea utilizar o en caso y no se envie nada, sera default.
+  
+- **`test_crc32_algorithm(message, error_rates, port_send, port_receive):`**:
+  - Realiza múltiples pruebas de transmisión de mensajes, calcula la tasa de éxito y la tasa de error de bits, y acumula los resultados para su análisis.
+  
+- **`main()`**:
+  - Configura los puertos del emisor y receptor, inicia los procesos del emisor y receptor, y ejecuta pruebas con diferentes tasas de error y tamanos del texto binario. Luego, visualiza los resultados y muestra una grafica.
+ 
+- **`plot_results(results)`**:
+  - Recibe y almacena los resultados, para despues poder crear graficas que expliquen mejor los mismos resultados.
+
+
+
 #### Ejecución del Código
 
 1. **Configuración de los Servidores**:
    - Asegúrate de que los archivos `Hamming.py` (Python) y `Hamming.go` (Go) están disponibles en las carpetas especificadas (`Hamming/`).
    - El archivo `Hamming.py` debe recibir el puerto del emisor y la tasa de error como argumentos.
    - El archivo `Hamming.go` debe escuchar en el puerto del receptor.
+   - Asegúrate de que los archivos `CRC-32_emisor.py` (Python) y `CRC32_receptor.java` están disponibles en las carpetas especificadas (`Deteccion_errores/`).
+   - El archivo `CRC-32_emisor.py` debe recibir el puerto del emisor.
+   - El archivo `CRC32_receptor.java` debe escuchar en el puerto del receptor.
 
 2. **Iniciar el Script**:
    - Ejecuta el archivo Python con el siguiente comando:
@@ -97,6 +129,7 @@ El script genera dos gráficos que muestran:
 - La **tasa de error de bits** frente a la **tasa de error**.
 
 Los gráficos se guardan en el archivo `hamming_performance.png` y se muestran al final de la ejecución del script.
+Mientras que los resultados del CRC-32 se mostraran al momento y son posibles de guaradar si desea el usuario.
 
 ### Requisitos
 
